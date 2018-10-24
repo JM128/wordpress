@@ -1,0 +1,22 @@
+{
+  "login_pwd_error": {
+      "username": "ZJM128",
+      "password": "123",
+      "message": "错误：为用户名ZJM128指定的密码不正确。 忘记密码？"
+  },
+  "login_usrpwd_error": {
+      "username": "aaa",
+      "password": "1111",
+      "message": "错误：无效用户名。 忘记密码？"
+  },
+  "login_pwd_null": {
+      "username": "ZJM128",
+      "password": "",
+      "message": "错误：密码一栏为空。"
+  },
+  "login_null": {
+      "username": "",
+      "password": "",
+      "message":""
+  }
+}

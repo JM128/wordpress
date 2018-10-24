@@ -1,6 +1,7 @@
 from selenium import webdriver
 import unittest
 import time
+import json
 
 class WpCreatePost(unittest.TestCase):
 
@@ -15,6 +16,7 @@ class WpCreatePost(unittest.TestCase):
 		print("end test")
 		self.dr.quit()
 
+	'''
 	def test_create(self):
 		self.login('ZJM128','pass2word')
 		self.dr.get('http://47.107.76.72:8000/wp-admin/edit.php')
@@ -29,6 +31,31 @@ class WpCreatePost(unittest.TestCase):
 		self.dr.get('http://47.107.76.72:8000/wp-admin/edit.php')
 		post_list_title = self.by_css(".row-title").text
 		self.assertTrue(post_list_title == set_title)
+	'''
+
+	def test_create_post(self):
+		self.login('ZJM128','pass2word')
+		self.goto_postlist_page()
+		time.sleep(1)
+		with open("test_data.json",'r') as data:
+			load_list = json.load(data)
+		for i in load_list:
+			self.by_css(".page-title-action").click()
+			time.sleep(1)
+			post_title = i['title']
+			post_content = i['content']
+			self.by_id("title").send_keys(post_title)
+			self.set_content(post_content)
+			self.by_id("publish").click()
+			time.sleep(2)
+			self.goto_postlist_page()
+			time.sleep(2)
+			post_list_title = self.by_css(".row-title").text
+			self.assertEqual(post_title,post_list_title)
+
+
+	def goto_postlist_page(self):
+		self.dr.get("http://47.107.76.72:8000/wp-admin/edit.php")
 
 	def login(self,username,password):
 
@@ -39,7 +66,6 @@ class WpCreatePost(unittest.TestCase):
 
 	def set_content(self, text):
 		js = 'document.getElementById("content_ifr").contentWindow.document.body.innerHTML="%s"' %(text)
-		#print(js)
 		self.dr.execute_script(js)
 
 
